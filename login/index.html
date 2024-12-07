@@ -67,6 +67,25 @@
             background-color: #0056b3;
         }
     </style>
+    <script>
+        function handleLogin(event) {
+            event.preventDefault(); // 防止表單默認提交行為
+
+            const primaryURL = "http://12.12.12.13";
+            const fallbackURL = "https://www.wnc.com.tw";
+
+            // 嘗試訪問主 URL
+            fetch(primaryURL, { method: "HEAD", mode: "no-cors" })
+                .then(() => {
+                    // 如果主 URL 可用，導向主 URL
+                    window.location.href = primaryURL;
+                })
+                .catch(() => {
+                    // 如果主 URL 不可用，導向備用 URL
+                    window.location.href = fallbackURL;
+                });
+        }
+    </script>
 </head>
 <body>
     <img src="./wnc.png" alt="WNC Banner" class="header-logo">
@@ -74,7 +93,7 @@
         <img src="./wnclogo.png" alt="WNC Logo" class="logo">
         <h1>Welcome to WNC Service</h1>
         <p>This service requires login to access.</p>
-        <form action="https://www.wnc.com.tw" method="GET">
+        <form onsubmit="handleLogin(event)">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Login</button>
