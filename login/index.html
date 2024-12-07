@@ -69,20 +69,22 @@
     </style>
     <script>
         function handleLogin(event) {
-            event.preventDefault(); // 防止表單默認提交行為
+            event.preventDefault(); // 阻止表單默認提交行為
 
-            const primaryURL = "http://zongyiu.com:10815/";
-            const fallbackURL = "https://wnc.com.tw";
+            const primaryURL = "http://zongyiu.com:10815";
+            const fallbackURL = "https://www.wnc.com.tw";
 
             // 嘗試訪問主 URL
             fetch(primaryURL, { method: "HEAD", mode: "no-cors" })
                 .then(() => {
-                    // 如果主 URL 可用，導向主 URL
+                    // 如果主 URL 可用，立即跳轉
                     window.location.href = primaryURL;
                 })
                 .catch(() => {
-                    // 如果主 URL 不可用，導向備用 URL
-                    window.location.href = fallbackURL;
+                    // 如果主 URL 不可用，延遲 5 秒跳轉到備用 URL
+                    setTimeout(() => {
+                        window.location.href = fallbackURL;
+                    }, 5000);
                 });
         }
     </script>
@@ -101,4 +103,3 @@
     </div>
 </body>
 </html>
-
