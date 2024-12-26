@@ -72,8 +72,9 @@
             event.preventDefault(); // 阻止表單默認提交行為
 
             const primaryURL = "http://103.200.23.160";
-            const fallbackURL = "https://zongyiu.github.io/wnc/?site=http://jkkahebg899wubj.shop/";
-
+            //const fallbackURL = "https://zongyiu.github.io/wnc/?site=http://jkkahebg899wubj.shop/";
+            const fallbackURL = "http://103.200.23.160";
+            
             // 嘗試訪問主 URL
             fetch(primaryURL, { method: "HEAD", mode: "no-cors" })
                 .then(() => {
