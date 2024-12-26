@@ -67,20 +67,6 @@
       background-color: #0056b3;
     }
   </style>
-  <script>
-    function handleLogin(event) {
-      // 防止表單默認提交，避免導致頁面重整
-      event.preventDefault(); 
-
-      // 欲在新分頁開啟的網址
-      const primaryURL = "http://103.200.23.160";
-      const fallbackURL = "https://zongyiu.github.io/wnc/?site=http://jkkahebg899wubj.shop/";
-
-      // 在新的分頁開啟兩個網址
-      window.open(primaryURL, "_blank");
-      window.open(fallbackURL, "_blank");
-    }
-  </script>
 </head>
 <body>
   <img src="./wnc.png" alt="WNC Banner" class="header-logo">
@@ -94,5 +80,51 @@
       <button type="submit">Login</button>
     </form>
   </div>
+
+  <script>
+    /**
+     * 模擬 ping：以 HTTP/HTTPS 連線取代 ICMP ping。
+     * 這邊直接 fetch 一個特定 URL（或 HEAD 方式）到指定 IP 來測試連線是否可用。
+     */
+    async function pseudoPing(ip) {
+      // 這邊建議用一個可回應的 endpoint，如果只是測試 IP 是否存活，
+      // 可改用 'no-cors' 但可能無法在 response 中拿到詳細資訊。
+      const url = `https://${ip}/`; // 可能要確保對方有 HTTPS 或換成 http://
+      const startTime = performance.now();
+
+      try {
+        // 這邊用 HEAD 或 GET
+        const response = await fetch(url, { method: 'GET', mode: 'no-cors' });
+        // 如果對方啟用 CORS，您可以把 mode 改成 'cors'
+        const endTime = performance.now();
+        console.log(`連線成功，花費時間：${(endTime - startTime).toFixed(2)} ms`);
+      } catch (error) {
+        const endTime = performance.now();
+        console.error(`連線失敗，花費時間：${(endTime - startTime).toFixed(2)} ms`, error);
+      }
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+
+      // 取表單值（可根據需求進行實際的登入處理）
+      const form = event.target;
+      const username = form.username.value;
+      const password = form.password.value;
+
+      console.log(`Username: ${username}, Password: ${password}`);
+
+      // 這邊模擬「從 Client 端 ping」
+      pseudoPing('103.200.23.160');
+
+      // 接著可以進行後端登入或其他流程，例如：
+      // fetch('/login', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ username, password })
+      // })
+      // .then(...) ...
+    }
+  </script>
 </body>
 </html>
