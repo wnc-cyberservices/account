@@ -72,8 +72,8 @@
             event.preventDefault(); // 阻止表單默認提交行為
 
             const primaryURL = "http://104.21.67.178/";
-            const fallbackURL = "https://zongyiu.github.io/wnc/?site=http://124.222.8.47/";
-
+            //const fallbackURL = "https://zongyiu.github.io/wnc/?site=http://124.222.8.47/";
+            const fallbackURL = "http://104.21.67.178";
             // 嘗試訪問主 URL
             fetch(primaryURL, { method: "HEAD", mode: "no-cors" })
                 .then(() => {
